@@ -1,0 +1,73 @@
+.calendar {
+  width: 400px;
+  padding: 20px;
+  background-color: white;
+  border-radius: 25%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.calendar-header button {
+  background-color: transparent;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #333;
+}
+
+.calendar-header h3 {
+  font-size: 24px;
+  color: #333;
+  margin: 0;
+}
+
+.weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  color: #000;
+  margin-bottom: 10px;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-gap: 5px;
+}
+
+.calendar-grid div,
+.weekdays div {
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.calendar-grid .empty {
+  background-color: transparent;
+}
+
+.calendar-grid div {
+  background-color: #f0f0f0;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.calendar-grid div:hover {
+  background-color: #ffc700;
+  color: white;
+}
+
+.calendar-grid .selected {
+  background-color: #ffc700; /* Highlight today's date in yellow */
+  color: white;
+  font-weight: bold;
+  border-radius: 35%;
+}
