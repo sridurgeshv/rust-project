@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, { useEffect, useCallback } from 'react';
 import '../styles/TaskList.css';
 
@@ -12,19 +11,6 @@ function TaskList({ tasks, setTasks }) {
   useEffect(() => {
     fetchTasks();
   }, [fetchTasks]);
-=======
-import React, { useState, useEffect } from 'react';
-import '../styles/TaskList.css';
-
-function TaskList() {
-  const [tasks, setTasks] = useState([]);
-
-  useEffect(() => {
-    fetch('http://127.0.0.1:8080/tasks')
-      .then(response => response.json())
-      .then(data => setTasks(data));
-  }, []);
->>>>>>> aad2fefa (all changes updated)
 
   const handleComplete = (id) => {
     fetch(`http://127.0.0.1:8080/tasks/complete/${id}`, { method: 'POST' })

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* Sidebar Container */
 .sidebar {
   background-color: #fff;
@@ -93,3 +94,100 @@
 .menu-item, .logout .menu-item {
   padding-left: 0; /* Align text to the left */
 }
+=======
+/* Sidebar Container */
+.sidebar {
+  background-color: #fff;
+  height: 100%;
+  padding: 20px;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Logo Section */
+.logo-section {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.logo {
+  background-color: #ffc700;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+}
+
+.logo-section h1 {
+  font-size: 24px;
+  color: #333;
+}
+
+/* Menu Styles */
+.menu, .logout {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.menu-item {
+  font-size: 18px;
+  margin-bottom: 20px;
+  cursor: pointer;
+  color: #333;
+  display: flex;
+  align-items: center;
+  transition: color 0.3s ease;
+}
+
+.menu-item .icon {
+  margin-right: 10px;
+  font-size: 20px;
+}
+
+.menu-item:hover {
+  color: #ffc700;
+}
+
+.menu-item.active {
+  color: #ffc700;
+  font-weight: bold;
+}
+
+/* Logout Section */
+.logout {
+  margin-top: auto;
+  list-style: none;
+}
+
+/* Ensure consistent alignment */
+.logout .menu-item {
+  margin-bottom: 20px;
+  color: #333;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.logout .menu-item:hover {
+  color: #ffc700;
+}
+
+.logout .menu-item .icon {
+  margin-right: 10px;
+  font-size: 20px;
+}
+
+/* Additional Alignment Fix */
+.menu-item, .logout .menu-item {
+  padding-left: 0; /* Align text to the left */
+}
+>>>>>>> master
