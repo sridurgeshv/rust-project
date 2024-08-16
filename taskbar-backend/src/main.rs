@@ -13,14 +13,9 @@ struct DateResponse {
 
 #[derive(Serialize, Deserialize, Clone)]
 struct Task {
-<<<<<<< HEAD
     id: Option<u32>,
     title: String,
     date: String,
-=======
-    id: u32,
-    title: String,
->>>>>>> aad2fefa (all changes updated)
     completed: bool,
 }
 
@@ -48,7 +43,6 @@ async fn get_tasks(data: web::Data<AppState>) -> impl Responder {
 #[post("/tasks")]
 async fn add_task(task: web::Json<Task>, data: web::Data<AppState>) -> impl Responder {
     let mut tasks = data.tasks.lock().unwrap();
-<<<<<<< HEAD
     let mut new_task = task.into_inner();
     new_task.id = Some(tasks.len() as u32 + 1);
     tasks.push(new_task.clone());
@@ -56,17 +50,10 @@ async fn add_task(task: web::Json<Task>, data: web::Data<AppState>) -> impl Resp
 }
 
 
-=======
-    tasks.push(task.into_inner());
-    HttpResponse::Ok().json(tasks.clone())
-}
-
->>>>>>> aad2fefa (all changes updated)
 #[post("/tasks/complete/{id}")]
 async fn complete_task(task_id: web::Path<u32>, data: web::Data<AppState>) -> impl Responder {
     let mut tasks = data.tasks.lock().unwrap();
     let task_id = task_id.into_inner();
-<<<<<<< HEAD
     
     // Use `filter` to unwrap the Option and compare
     if let Some(task) = tasks.iter_mut().find(|task| task.id == Some(task_id)) {
@@ -77,14 +64,6 @@ async fn complete_task(task_id: web::Path<u32>, data: web::Data<AppState>) -> im
 }
 
 
-=======
-    if let Some(task) = tasks.iter_mut().find(|task| task.id == task_id) {
-        task.completed = true;
-    }
-    HttpResponse::Ok().json(tasks.clone())
-}
-
->>>>>>> aad2fefa (all changes updated)
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     let app_state = web::Data::new(AppState {
