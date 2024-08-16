@@ -1,60 +1,28 @@
-<<<<<<< HEAD
 .tracking {
-    padding: 20px;
-  }
-  
-  .tracking h3 {
-    font-size: 18px;
-    margin-bottom: 15px;
-  }
-  
-  .tracking-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .tracking-list li {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-    background-color: #f0f0f0;
-    padding: 10px;
-    border-radius: 5px;
-  }
-  
-  .tracking-list li:hover {
-    background-color: #ffc700;
-    color: white;
-  }
-=======
-.tracking {
-    padding: 20px;
-  }
-  
-  .tracking h3 {
-    font-size: 18px;
-    margin-bottom: 15px;
-  }
-  
-  .tracking-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .tracking-list li {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-    background-color: #f0f0f0;
-    padding: 10px;
-    border-radius: 5px;
-  }
-  
-  .tracking-list li:hover {
-    background-color: #ffc700;
-    color: white;
-  }
->>>>>>> master
-  
+  padding: 20px;
+}
+
+.tracking h3 {
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+.tracking-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tracking-list li {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  background-color: #f0f0f0;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.tracking-list li:hover {
+  background-color: #ffc700;
+  color: white;
+}
