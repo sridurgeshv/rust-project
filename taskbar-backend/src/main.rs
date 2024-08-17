@@ -1,5 +1,5 @@
 use actix_cors::Cors;
-use actix_web::{get, post, App, HttpServer, Responder, HttpResponse, web};
+use actix_web::{get, post, put, App, HttpServer, Responder, HttpResponse, web};
 use serde::{Serialize, Deserialize};
 use chrono::{Local, Datelike};
 use std::sync::Mutex;
@@ -86,6 +86,23 @@ async fn add_comment(comment: web::Json<Comment>, data: web::Data<AppState>) -> 
     HttpResponse::Ok().json(new_comment)
 }
 
+#[put("/comments/{id}")]
+async fn update_comment(
+    path: web::Path<u32>,
+    comment: web::Json<Comment>,
+    data: web::Data<AppState>
+) -> impl Responder {
+    let id = path.into_inner();
+    let mut comments = data.comments.lock().unwrap();
+    if let Some(existing_comment) = comments.iter_mut().find(|c| c.id == Some(id)) {
+        *existing_comment = comment.into_inner();
+        existing_comment.id = Some(id);
+        HttpResponse::Ok().json(existing_comment.clone())
+    } else {
+        HttpResponse::NotFound().finish()
+    }
+}
+
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     let app_state = web::Data::new(AppState {
@@ -118,6 +135,7 @@ async fn main() -> std::io::Result<()> {
             .service(complete_task)
             .service(get_comments)
             .service(add_comment)
+            .service(update_comment)
     })
     .bind("127.0.0.1:8080")?
     .run()

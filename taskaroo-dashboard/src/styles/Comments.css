@@ -3,12 +3,47 @@
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+}
+
+.comments-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
 }
 
 .comments h3 {
   font-size: 24px;
-  margin-bottom: 15px;
   color: #333;
+  margin: 0;
+}
+
+.menu-dots {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 0 5px;
+}
+
+.menu-dropdown {
+  position: absolute;
+  right: 20px;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.menu-dropdown button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 
 .comments ul {
@@ -23,12 +58,18 @@
   background-color: #f8f8f8;
   border-radius: 5px;
   font-size: 18px;
+  transition: background-color 0.3s ease;
+}
+
+.comments ul li.editing {
+  background-color: #e0e0e0;
 }
 
 .comments ul li strong {
   display: block;
   color: #333;
   margin-bottom: 5px;
+  font-weight: 600;
 }
 
 .comments ul li span {
@@ -41,13 +82,14 @@
   color: #000;
   cursor: pointer;
   font-size: 18px;
+  font-weight: bolder;
   padding: 5px 0;
   text-align: left;
   width: 100%;
 }
 
 .add-button:hover {
-  text-decoration: underline;
+  text-decoration: none;
 }
 
 form {
@@ -60,13 +102,29 @@ form input {
   margin-bottom: 10px;
   border: 1px solid #ddd;
   border-radius: 4px;
+  font-size: 18px;
+}
+
+.form-buttons {
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
 }
 
 form button {
-  background-color: rgb(233, 233, 71);
+  background-color: #007bff;
   color: white;
   border: none;
   padding: 8px 15px;
   border-radius: 4px;
   cursor: pointer;
+  font-size: 18px;
+}
+
+form button[type="button"] {
+  background-color: #6c757d;
+}
+
+form button:hover {
+  opacity: 0.9;
 }

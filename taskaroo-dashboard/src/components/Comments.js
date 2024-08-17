@@ -5,6 +5,8 @@ function Comments() {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState({ title: '', content: '' });
   const [isAdding, setIsAdding] = useState(false);
+  const [editingId, setEditingId] = useState(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
     fetchComments();
@@ -24,9 +26,20 @@ function Comments() {
     setIsAdding(true);
   };
 
-  const handleInputChange = (e) => {
+  const handleCancelAdd = () => {
+    setIsAdding(false);
+    setNewComment({ title: '', content: '' });
+  };
+
+  const handleInputChange = (e, id = null) => {
     const { name, value } = e.target;
-    setNewComment(prev => ({ ...prev, [name]: value }));
+    if (id !== null) {
+      setComments(comments.map(comment => 
+        comment.id === id ? { ...comment, [name]: value } : comment
+      ));
+    } else {
+      setNewComment(prev => ({ ...prev, [name]: value }));
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -48,14 +61,65 @@ function Comments() {
     }
   };
 
+  const handleEdit = (id) => {
+    setEditingId(id);
+    setIsMenuOpen(false);
+  };
+
+  const handleSaveEdit = async (id) => {
+    try {
+      const commentToUpdate = comments.find(comment => comment.id === id);
+      const response = await fetch(`http://localhost:8080/comments/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(commentToUpdate),
+      });
+      if (response.ok) {
+        setEditingId(null);
+      }
+    } catch (error) {
+      console.error('Error updating comment:', error);
+    }
+  };
+
   return (
     <div className="comments card">
-      <h3>New comments</h3>
+      <div className="comments-header">
+        <h3>New comments</h3>
+        <button className="menu-dots" onClick={() => setIsMenuOpen(!isMenuOpen)}>⋮</button>
+        {isMenuOpen && (
+          <div className="menu-dropdown">
+            <button onClick={() => handleEdit(null)}>Edit</button>
+          </div>
+        )}
+      </div>
       <ul>
-        {comments.map((comment, index) => (
-          <li key={index}>
-            <strong>{comment.title}</strong>
-            <span>{comment.content}</span>
+        {comments.map((comment) => (
+          <li key={comment.id} className={editingId === comment.id ? 'editing' : ''}>
+            {editingId === comment.id ? (
+              <>
+                <input
+                  type="text"
+                  name="title"
+                  value={comment.title}
+                  onChange={(e) => handleInputChange(e, comment.id)}
+                />
+                <input
+                  type="text"
+                  name="content"
+                  value={comment.content}
+                  onChange={(e) => handleInputChange(e, comment.id)}
+                />
+                <button onClick={() => handleSaveEdit(comment.id)}>Save</button>
+              </>
+            ) : (
+              <>
+                <strong>{comment.title}</strong>
+                <span>{comment.content}</span>
+              </>
+            )}
           </li>
         ))}
       </ul>
@@ -77,7 +141,10 @@ function Comments() {
             placeholder="Comment"
             required
           />
-          <button type="submit">Add</button>
+          <div className="form-buttons">
+            <button type="submit">Add</button>
+            <button type="button" onClick={handleCancelAdd}>Cancel</button>
+          </div>
         </form>
       ) : (
         <button className="add-button" onClick={handleAddClick}>+ Add</button>
