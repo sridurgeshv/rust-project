@@ -65,6 +65,14 @@
   background-color: #e0e0e0;
 }
 
+.comments ul li.editing input {
+  width: calc(50% - 5px);
+  margin-right: 5px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+
 .comments ul li strong {
   display: block;
   color: #333;

@@ -61,8 +61,8 @@ function Comments() {
     }
   };
 
-  const handleEdit = (id) => {
-    setEditingId(id);
+  const handleEditToggle = () => {
+    setEditingId(editingId ? null : 'all');
     setIsMenuOpen(false);
   };
 
@@ -77,10 +77,21 @@ function Comments() {
         body: JSON.stringify(commentToUpdate),
       });
       if (response.ok) {
+        const updatedComment = await response.json();
+        setComments(comments.map(comment => 
+          comment.id === id ? updatedComment : comment
+        ));
         setEditingId(null);
       }
     } catch (error) {
       console.error('Error updating comment:', error);
+    }
+  };
+
+  const handleKeyPress = (e, id) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleSaveEdit(id);
     }
   };
 
@@ -91,29 +102,32 @@ function Comments() {
         <button className="menu-dots" onClick={() => setIsMenuOpen(!isMenuOpen)}>⋮</button>
         {isMenuOpen && (
           <div className="menu-dropdown">
-            <button onClick={() => handleEdit(null)}>Edit</button>
+            <button onClick={handleEditToggle}>
+              {editingId ? 'Done' : 'Edit'}
+            </button>
           </div>
         )}
       </div>
       <ul>
         {comments.map((comment) => (
-          <li key={comment.id} className={editingId === comment.id ? 'editing' : ''}>
-            {editingId === comment.id ? (
-              <>
+          <li key={comment.id} className={editingId === 'all' || editingId === comment.id ? 'editing' : ''}>
+            {editingId === 'all' || editingId === comment.id ? (
+              <form onSubmit={(e) => { e.preventDefault(); handleSaveEdit(comment.id); }}>
                 <input
                   type="text"
                   name="title"
                   value={comment.title}
                   onChange={(e) => handleInputChange(e, comment.id)}
+                  onKeyPress={(e) => handleKeyPress(e, comment.id)}
                 />
                 <input
                   type="text"
                   name="content"
                   value={comment.content}
                   onChange={(e) => handleInputChange(e, comment.id)}
+                  onKeyPress={(e) => handleKeyPress(e, comment.id)}
                 />
-                <button onClick={() => handleSaveEdit(comment.id)}>Save</button>
-              </>
+              </form>
             ) : (
               <>
                 <strong>{comment.title}</strong>
