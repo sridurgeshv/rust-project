@@ -19,8 +19,16 @@ struct Task {
     completed: bool,
 }
 
+#[derive(Serialize, Deserialize, Clone)]
+struct Comment {
+    id: Option<u32>,
+    title: String,
+    content: String,
+}
+
 struct AppState {
     tasks: Mutex<Vec<Task>>,
+    comments: Mutex<Vec<Comment>>,
 }
 
 #[get("/current-date")]
@@ -63,11 +71,37 @@ async fn complete_task(task_id: web::Path<u32>, data: web::Data<AppState>) -> im
     HttpResponse::Ok().json(tasks.clone())
 }
 
+#[get("/comments")]
+async fn get_comments(data: web::Data<AppState>) -> impl Responder {
+    let comments = data.comments.lock().unwrap();
+    HttpResponse::Ok().json(comments.clone())
+}
+
+#[post("/comments")]
+async fn add_comment(comment: web::Json<Comment>, data: web::Data<AppState>) -> impl Responder {
+    let mut comments = data.comments.lock().unwrap();
+    let mut new_comment = comment.into_inner();
+    new_comment.id = Some(comments.len() as u32 + 1);
+    comments.push(new_comment.clone());
+    HttpResponse::Ok().json(new_comment)
+}
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     let app_state = web::Data::new(AppState {
         tasks: Mutex::new(vec![]),
+        comments: Mutex::new(vec![
+            Comment {
+                id: Some(1),
+                title: "Market research".to_string(),
+                content: "Find my keynote attached...".to_string(),
+            },
+            Comment {
+                id: Some(2),
+                title: "Market research".to_string(),
+                content: "I've added the data...".to_string(),
+            },
+        ]),
     });
 
     HttpServer::new(move || {
@@ -82,6 +116,8 @@ async fn main() -> std::io::Result<()> {
             .service(get_tasks)
             .service(add_task)
             .service(complete_task)
+            .service(get_comments)
+            .service(add_comment)
     })
     .bind("127.0.0.1:8080")?
     .run()
