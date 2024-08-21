@@ -5,6 +5,7 @@ import TaskList from '../components/TaskList';
 import TrackingList from '../components/TrackingList';
 import Categories from '../components/Categories';
 import Comments from '../components/Comments';
+import VoiceAssistantIcon from '../components/VoiceAssistantIcon';
 
 function Dashboard() {
     const [tasks, setTasks] = useState([]);
@@ -34,6 +35,7 @@ function Dashboard() {
                     <Comments />
                 </div>
             </div>
+            <VoiceAssistantIcon onClick={() => console.log('Voice assistant clicked!')} />
         </div>
     );
 }
