@@ -13,7 +13,7 @@ h1, h2, h3, h4, h5, h6 {
   box-sizing: border-box;
 }
 
-.container {
+.app-container {
   display: flex;
   height: 100vh;
   width: 100%;
@@ -22,12 +22,13 @@ h1, h2, h3, h4, h5, h6 {
 .sidebar {
   width: 350px;
   background-color: #fff;
-  padding: 50px;
+  flex-shrink: 0;
 }
 
 .main-content {
   flex: 1;
   padding: 20px;
+  overflow-y: auto;
   background-color: #f9f9f9;
 }
 

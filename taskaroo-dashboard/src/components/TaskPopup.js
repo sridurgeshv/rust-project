@@ -4,11 +4,12 @@ import '../styles/TaskPopup.css';
 function TaskPopup({ addTask, togglePopup }) {
     const [taskTitle, setTaskTitle] = useState('');
     const [dueDate, setDueDate] = useState('Today');
+    const [priority, setPriority] = useState('Medium');
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        addTask(taskTitle, dueDate);  // Call the addTask function passed down as a prop
-        togglePopup();  // Close the popup after submission
+        addTask(taskTitle, dueDate, priority);
+        togglePopup();
     };
 
     return (
@@ -37,6 +38,18 @@ function TaskPopup({ addTask, togglePopup }) {
                             <option value="Tomorrow">Tomorrow</option>
                             <option value="This Week">This Week</option>
                             <option value="This Month">This Month</option>
+                        </select>
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="priority">Priority</label>
+                        <select
+                            id="priority"
+                            value={priority}
+                            onChange={(e) => setPriority(e.target.value)}
+                        >
+                            <option value="Low">Low</option>
+                            <option value="Medium">Medium</option>
+                            <option value="High">High</option>
                         </select>
                     </div>
                     <div className="form-actions">

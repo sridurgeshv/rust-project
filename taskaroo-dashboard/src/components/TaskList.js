@@ -25,17 +25,17 @@ function TaskList({ tasks, setTasks }) {
     <div className="tasks card">
       <h3>My tasks ({tasks.length})</h3>
       <ul className="task-list">
-        {tasks.map(task => (
+      {tasks.map(task => (
           <li key={task.id} className={task.completed ? 'completed' : ''}>
-            <input
-              type="checkbox"
-              checked={task.completed}
-              onChange={() => handleComplete(task.id)}
-            />
-            {task.title}
-            <span className="task-date">{task.date}</span>
+              <input
+                  type="checkbox"
+                  checked={task.completed}
+                  onChange={() => handleComplete(task.id)}
+              />
+              {task.title}
+              <span className="task-date">{task.date}</span>
           </li>
-        ))}
+      ))}
       </ul>
     </div>
   );

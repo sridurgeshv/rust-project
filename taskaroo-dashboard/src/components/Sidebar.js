@@ -1,39 +1,40 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 import '../styles/Sidebar.css';
 
 function Sidebar() {
-  return (
-    <div className="sidebar">
-      <div className="logo-section">
-        <div className="logo">TK</div>
-        <h1>Taskaroo</h1>
-      </div>
-      <ul className="menu">
-        <li className="menu-item active">
-          <span className="icon" role="img" aria-label="Dashboard">📊</span>
-          <span>Dashboard</span>
-        </li>
-        <li className="menu-item">
-          <span className="icon" role="img" aria-label="My tasks">📝</span>
-          <span>My tasks</span>
-        </li>
-        <li className="menu-item">
-          <span className="icon" role="img" aria-label="Notifications">🔔</span>
-          <span>Notifications</span>
-        </li>
-      </ul>
-      <ul className="logout">
-        <li className="menu-item">
-          <span className="icon" role="img" aria-label="Settings">⚙️</span>
-          <span>Settings</span>
-        </li>
-        <li className="menu-item">
-          <span className="icon" role="img" aria-label="Log Out">🚪</span>
-          <span>Log Out</span>
-        </li>
-      </ul>
-    </div>
-  );
+    return (
+        <div className="sidebar">
+            <div className="logo-section">
+                <div className="logo">TK</div>
+                <h1>Taskaroo</h1>
+            </div>
+            <nav className="menu">
+                <NavLink to="/dashboard" className="menu-item" activeClassName="active">
+                    <span className="icon" role="img" aria-label="Dashboard">📊</span>
+                    <span>Dashboard</span>
+                </NavLink>
+                <NavLink to="/my-tasks" className="menu-item" activeClassName="active">
+                    <span className="icon" role="img" aria-label="My tasks">📝</span>
+                    <span>My tasks</span>
+                </NavLink>
+                <NavLink to="/goals" className="menu-item" activeClassName="active">
+                    <span className="icon" role="img" aria-label="Goals">🏆</span>
+                    <span>Goals</span>
+                </NavLink>
+            </nav>
+            <nav className="logout">
+                <NavLink to="/settings" className="menu-item" activeClassName="active">
+                    <span className="icon" role="img" aria-label="Settings">⚙️</span>
+                    <span>Settings</span>
+                </NavLink>
+                <NavLink to="/logout" className="menu-item">
+                    <span className="icon" role="img" aria-label="Log Out">🚪</span>
+                    <span>Log Out</span>
+                </NavLink>
+            </nav>
+        </div>
+    );
 }
 
 export default Sidebar;
