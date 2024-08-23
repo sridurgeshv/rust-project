@@ -19,7 +19,7 @@
   border-radius: 10px;
   border: 1px solid #e6e6e6;
   color: #000;
-  background-color: rgb(231, 219, 219);
+  background-color: rgb(205, 199, 199);
 }
 
 .dashboard-header .new-task {
@@ -57,12 +57,4 @@
 
 .right-column {
   flex: 1.5;
-}
-
-.card {
-  background-color: #fff;
-  border-radius: 10px;
-  padding: 20px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
 }
