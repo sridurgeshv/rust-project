@@ -13,25 +13,39 @@
   border-bottom: 1px solid #f3eeee;
 }
 
+.header-buttons {
+  display: flex;
+  gap: 10px;
+}
+
 .dashboard-header input[type="text"] {
   width: 350px;
   padding: 12px;
   border-radius: 10px;
   border: 1px solid #e6e6e6;
   color: #000;
-  background-color: rgb(205, 199, 199);
+  background-color: #fff;
 }
 
-.dashboard-header .new-task {
-  background-color: #ffc700;
-  border: none;
+.profile-button {
   padding: 15px 20px;
   border-radius: 20px;
   font-size: 18px;
-  color: black;
   cursor: pointer;
   font-weight: bolder;
 }
+
+.profile-button {
+  background-color: #ffc700;
+  border: none;
+  color: black;
+}
+
+.focus-icon {
+  width: 24px; /* or any desired width */
+  height: 24px; /* or any desired height */
+}
+
 
 .main-content {
   display: flex;

@@ -22,6 +22,13 @@ struct Task {
 }
 
 #[derive(Serialize, Deserialize, Clone)]
+struct TrackedTask {
+    id: Option<u32>,
+    title: String,
+    time: u32,  // Time in minutes
+}
+
+#[derive(Serialize, Deserialize, Clone)]
 struct Comment {
     id: Option<u32>,
     title: String,
@@ -64,6 +71,7 @@ struct AppState {
     tasks: Mutex<Vec<Task>>,
     comments: Mutex<Vec<Comment>>,
     goals: Mutex<Vec<Goal>>, // Add this line
+    tracked_tasks: Mutex<Vec<TrackedTask>>,  // State for tracked tasks
 }
 
 #[get("/current-date")]
@@ -122,6 +130,21 @@ async fn complete_task(task_id: web::Path<u32>, data: web::Data<AppState>) -> im
     }
     
     HttpResponse::Ok().json(tasks.clone())
+}
+
+#[get("/tracked-tasks")]
+async fn get_tracked_tasks(data: web::Data<AppState>) -> impl Responder {
+    let tracked_tasks = data.tracked_tasks.lock().unwrap();
+    HttpResponse::Ok().json(tracked_tasks.clone())
+}
+
+#[post("/tracked-tasks")]
+async fn add_tracked_task(tracked_task: web::Json<TrackedTask>, data: web::Data<AppState>) -> impl Responder {
+    let mut tracked_tasks = data.tracked_tasks.lock().unwrap();
+    let mut new_tracked_task = tracked_task.into_inner();
+    new_tracked_task.id = Some(tracked_tasks.len() as u32 + 1);
+    tracked_tasks.push(new_tracked_task.clone());
+    HttpResponse::Ok().json(new_tracked_task)
 }
 
 #[get("/comments")]
@@ -198,6 +221,7 @@ async fn update_progress(
 async fn main() -> std::io::Result<()> {
     let app_state = web::Data::new(AppState {
         tasks: Mutex::new(vec![]),
+        tracked_tasks: Mutex::new(vec![]), // Initialize tracked_tasks state
         comments: Mutex::new(vec![
             Comment {
                 id: Some(1),
@@ -229,6 +253,8 @@ async fn main() -> std::io::Result<()> {
             .service(get_tasks)
             .service(add_task)
             .service(complete_task)
+            .service(get_tracked_tasks)  // Add the get_tracked_tasks route
+            .service(add_tracked_task)  // Add the add_tracked_task route
             .service(get_comments)
             .service(add_comment)
             .service(update_comment)

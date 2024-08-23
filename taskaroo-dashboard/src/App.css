@@ -16,7 +16,12 @@ h1, h2, h3, h4, h5, h6 {
 .app-container {
   display: flex;
   height: 100vh;
+  transition: filter 0.3s ease;
   width: 100%;
+}
+
+.app-container.blurred {
+  filter: blur(5px);
 }
 
 .sidebar {
@@ -57,4 +62,41 @@ h1, h2, h3, h4, h5, h6 {
 
 .calendar, .tasks, .tracking, .categories, .comments {
   margin-bottom: 20px;
+}
+
+.focus-timer-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.focus-timer {
+  background-image: url('./assets/beach.jpg');
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+.close-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
 }

@@ -1,22 +1,21 @@
-.tracking {
+.tracking-list {
   padding: 20px;
 }
 
-.tracking h3 {
-  font-size: 18px;
+.tracking-list h3 {
+  font-size: 24px;
   margin-bottom: 15px;
 }
 
 .tracking-list {
   list-style: none;
   padding: 0;
-  margin: 0;
+  margin-top: 12px;
 }
 
 .tracking-list li {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 10px;
   background-color: #f0f0f0;
   padding: 10px;
   border-radius: 5px;
@@ -25,4 +24,12 @@
 .tracking-list li:hover {
   background-color: #ffc700;
   color: white;
+}
+
+.card {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
 }

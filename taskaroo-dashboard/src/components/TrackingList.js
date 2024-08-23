@@ -1,34 +1,30 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import '../styles/TrackingList.css';
 
 function TrackingList() {
+  const [trackedTasks, setTrackedTasks] = useState([]);
+
+  useEffect(() => {
+    // Fetch the tracked tasks from the backend
+    fetch('http://127.0.0.1:8080/tracked-tasks')
+      .then(response => response.json())
+      .then(data => setTrackedTasks(data))
+      .catch(error => console.error('Error fetching tracked tasks:', error));
+  }, []);
+
   return (
-    <div className="tracking card">
+    <div className="tracking-list card">
       <h3>My tracking</h3>
       <ul className="tracking-list">
-        <li>
-          Create wireframe
-          <span>1h 25m 30s</span>
-        </li>
-        <li>
-          Slack logo design
-          <span>30m 18s</span>
-        </li>
-        <li>
-          Dashboard design
-          <span>1h 48m 22s</span>
-        </li>
-        <li>
-          Create wireframe 
-          <span>17m 15s</span>
-        </li>
-        <li>
-          Mood tracker
-          <span>15h 5m 58s</span> 
-        </li>
+        {trackedTasks.map(trackedTask => (
+          <li key={trackedTask.id} className="tracked-task">
+            <span className="task-title">{trackedTask.title}</span>
+            <span className="task-time">{trackedTask.time}</span>
+          </li>
+        ))}
       </ul>
     </div>
   );
-};
+}
 
 export default TrackingList;
