@@ -1,5 +1,5 @@
 use actix_cors::Cors;
-use actix_web::{get, post, put, App, HttpServer, Responder, HttpResponse, web, middleware};
+use actix_web::{get, post, put, delete, App, HttpServer, Responder, HttpResponse, web, middleware};
 use serde::{Serialize, Deserialize};
 use chrono::{Local, Datelike, NaiveDate};
 use std::sync::Mutex;
@@ -67,11 +67,31 @@ struct UpdateProgress {
     progress: u8,
 }
 
+#[derive(Serialize, Deserialize, Clone, Debug)]
+struct BotTask {
+    id: Option<u32>,
+    title: String,
+    completed: bool,
+    is_pomodoro: bool,
+}
+
+#[derive(Serialize, Deserialize, Clone, Debug)]
+struct BotGoal {
+    id: Option<Uuid>,
+    title: String,
+    progress: u32,
+}
+
 struct AppState {
     tasks: Mutex<Vec<Task>>,
     comments: Mutex<Vec<Comment>>,
     goals: Mutex<Vec<Goal>>, // Add this line
     tracked_tasks: Mutex<Vec<TrackedTask>>,  // State for tracked tasks
+}
+
+pub struct BotAppState {
+    tasks: Mutex<Vec<BotTask>>,
+    goals: Mutex<Vec<BotGoal>>,
 }
 
 #[get("/current-date")]
@@ -217,6 +237,86 @@ async fn update_progress(
     }
 }
 
+// Bot routes
+#[get("/bot/tasks")]
+async fn get_bot_tasks(data: web::Data<BotAppState>) -> impl Responder {
+    let tasks = data.tasks.lock().unwrap();
+    HttpResponse::Ok().json(tasks.clone())
+}
+
+#[post("/bot/tasks")]
+async fn add_bot_task(task: web::Json<BotTask>, data: web::Data<BotAppState>) -> impl Responder {
+    let mut tasks = data.tasks.lock().unwrap();
+    let mut new_task = task.into_inner();
+    new_task.id = Some(tasks.len() as u32 + 1);
+    tasks.push(new_task.clone());
+    HttpResponse::Ok().json(new_task)
+}
+
+// Update bot task
+#[put("/bot/tasks/{id}")]
+async fn update_bot_task(
+    path: web::Path<u32>,
+    task: web::Json<BotTask>,
+    data: web::Data<BotAppState>
+) -> impl Responder {
+    let id = path.into_inner();
+    let mut tasks = data.tasks.lock().unwrap();
+    
+    // Find the task with the provided ID and update it
+    if let Some(existing_task) = tasks.iter_mut().find(|t| t.id == Some(id)) {
+        existing_task.title = task.title.clone();
+        existing_task.completed = task.completed;
+        existing_task.is_pomodoro = task.is_pomodoro;
+        HttpResponse::Ok().json(existing_task.clone())
+    } else {
+        HttpResponse::NotFound().finish()
+    }
+}
+
+#[post("/bot/tasks/complete/{id}")]
+async fn complete_bot_task(task_id: web::Path<u32>, data: web::Data<BotAppState>) -> impl Responder {
+    let mut tasks = data.tasks.lock().unwrap();
+    let task_id = task_id.into_inner();
+    
+    if let Some(task) = tasks.iter_mut().find(|task| task.id == Some(task_id)) {
+        task.completed = true;
+        HttpResponse::Ok().json(task.clone())
+    } else {
+        HttpResponse::NotFound().finish()
+    }
+}
+
+#[get("/bot/goals")]
+async fn get_bot_goals(data: web::Data<BotAppState>) -> impl Responder {
+    let goals = data.goals.lock().unwrap();
+    HttpResponse::Ok().json(goals.clone())
+}
+
+#[post("/bot/goals")]
+async fn add_bot_goal(
+    goal: web::Json<BotGoal>,
+    data: web::Data<BotAppState>
+) -> impl Responder {
+    let mut goals = data.goals.lock().unwrap();
+    let mut new_goal = goal.into_inner();
+    new_goal.id = Some(Uuid::new_v4()); // Assign a new UUID
+    goals.push(new_goal.clone());
+    HttpResponse::Ok().json(new_goal)
+}
+
+#[delete("/bot/tasks/{id}")]
+async fn delete_bot_task(task_id: web::Path<u32>, data: web::Data<BotAppState>) -> impl Responder {
+    let mut tasks = data.tasks.lock().unwrap();
+    let task_id = task_id.into_inner();
+    if tasks.iter().position(|task| task.id == Some(task_id)).is_some() {
+        tasks.retain(|task| task.id != Some(task_id));
+        HttpResponse::Ok().finish()
+    } else {
+        HttpResponse::NotFound().finish()
+    }
+}
+
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     let app_state = web::Data::new(AppState {
@@ -237,11 +337,18 @@ async fn main() -> std::io::Result<()> {
         goals: Mutex::new(Vec::new()),
     });
 
+    let bot_state = web::Data::new(BotAppState {
+        tasks: Mutex::new(vec![]),
+        goals: Mutex::new(vec![]),
+    });
+
     HttpServer::new(move || {
         App::new()
             .app_data(web::JsonConfig::default().error_handler(|err, _req| {
                 actix_web::error::ErrorBadRequest(format!("JSON Error: {}", err))
             }))
+            .app_data(app_state.clone())
+            .app_data(bot_state.clone())
             .wrap(middleware::Logger::default())
             .wrap(Cors::default()
             .allow_any_origin()
@@ -261,6 +368,13 @@ async fn main() -> std::io::Result<()> {
             .service(get_goals)
             .service(create_goal) 
             .service(update_progress) 
+            .service(get_bot_tasks)
+            .service(add_bot_task)
+            .service(update_bot_task)
+            .service(complete_bot_task)
+            .service(delete_bot_task) // Added delete route
+            .service(get_bot_goals)
+            .service(add_bot_goal)
     })
     .bind("127.0.0.1:8080")?
     .run()

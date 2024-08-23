@@ -7,11 +7,13 @@ import TrackingList from '../components/TrackingList';
 import Categories from '../components/Categories';
 import Comments from '../components/Comments';
 import VoiceAssistantIcon from '../components/VoiceAssistantIcon';
+import BotPopup from '../components/BotPopup';
 
 function Dashboard() {
     const [tasks, setTasks] = useState([]);
     const [showPomodoro, setShowPomodoro] = useState(false); // State for Pomodoro form
     const [trackedTasks, setTrackedTasks] = useState([]); // State for tracked tasks
+    const [isBotOpen, setIsBotOpen] = useState(false); // State for bot popup visibility
 
     useEffect(() => {
       fetch('http://127.0.0.1:8080/tasks')
@@ -21,6 +23,10 @@ function Dashboard() {
     
     const togglePomodoro = () => {
         setShowPomodoro(!showPomodoro);
+    };
+
+    const toggleBot = () => {
+        setIsBotOpen(!isBotOpen);
     };
 
     // Fetch the tracked tasks from the backend when the component mounts
@@ -58,7 +64,14 @@ function Dashboard() {
                 <Comments />
             </div>
         </div>
-        <VoiceAssistantIcon onClick={() => console.log('Voice assistant clicked!')} />
+        <VoiceAssistantIcon onClick={toggleBot} />
+            {isBotOpen && (
+                <BotPopup
+                    tasks={tasks}
+                    setTasks={setTasks}
+                    onClose={toggleBot}
+                />
+            )}
         {showPomodoro && <Pomodoro onClose={togglePomodoro} addTrackedTask={addTrackedTask} />} {/* Pomodoro Form */}
         </div>
     );
