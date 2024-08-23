@@ -86,7 +86,6 @@ async fn get_tasks(data: web::Data<AppState>) -> impl Responder {
 
 #[post("/tasks")]
 async fn add_task(task: web::Json<Task>, data: web::Data<AppState>) -> impl Responder {
-    println!("Received task: {:?}", task);
     let mut tasks = data.tasks.lock().unwrap();
     let mut new_task = task.into_inner();
     new_task.id = Some(tasks.len() as u32 + 1);
