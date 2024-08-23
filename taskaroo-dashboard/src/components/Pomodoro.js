@@ -37,7 +37,9 @@ const Pomodoro = ({ onClose, addTrackedTask }) => {
       {isOpen && (
         <div className="pomodoro-popup">
           <div className="popup-header">
-            <span>🧠 Focus Mode</span>
+          <span>
+            <span role="img" aria-label="Brain emoji">🧠</span> Focus Mode
+          </span>
             <button className="close-button" onClick={() => setIsOpen(false)}>×</button>
           </div>
           <div className="popup-content">
