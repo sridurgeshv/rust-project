@@ -1,15 +1,17 @@
-/* BotPopup.css */
 .bot-popup {
     position: fixed;
     bottom: 20px;
     right: 20px;
     width: 300px;
+    height: 350px;
     background-color: #fff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     border-radius: 8px;
     overflow: hidden;
     z-index: 1000;
     font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
 }
 
 .bot-header {
@@ -18,7 +20,7 @@
     padding: 10px;
     text-align: center;
     font-size: 18px;
-    font-weight: bold;
+    font-weight: bolder;
     position: relative;
 }
 
@@ -30,13 +32,15 @@
     background: none;
     border: none;
     color: white;
-    font-size: 16px;
+    font-size: 18px;
     cursor: pointer;
     z-index: 1010; /* Ensures it's above other elements */
 }
 
 .bot-content {
+    flex: 1;
     padding: 15px;
+    overflow-y: auto;
 }
 
 .bot-response {
@@ -44,24 +48,30 @@
     padding: 10px;
     margin-bottom: 10px;
     border-radius: 4px;
-    font-size: 14px;
+    font-size: 16px;
     min-height: 50px;
 }
 
-.bot-content input[type="text"] {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 10px;
-    border: 1px solid #ced4da;
-    border-radius: 4px;
-    font-size: 14px;
+.bot-input-container {
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #ced4da;
+    background-color: #f1f1f1;
 }
 
-.bot-content button {
-    width: 100%;
+.bot-input-container input[type="text"] {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+.bot-input-container button {
     background-color: #007bff;
     color: white;
-    padding: 10px;
+    padding: 8px;
     border: none;
     border-radius: 4px;
     font-size: 16px;
@@ -69,6 +79,6 @@
     transition: background-color 0.3s ease;
 }
 
-.bot-content button:hover {
+.bot-input-container button:hover {
     background-color: #0056b3;
 }

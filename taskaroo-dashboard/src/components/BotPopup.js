@@ -127,10 +127,12 @@ function BotPopup({ tasks, setTasks, onClose }) {
         <div className="bot-popup">
             <div className="bot-header">
                 <h5>Task Management Bot</h5>
-                <button onClick={onClose}>Close</button>
+                <button onClick={onClose}>&#10540;</button>
             </div>
             <div className="bot-content">
                 <div className="bot-response">{response}</div>
+            </div>
+            <div className="bot-input-container">
                 <input 
                     type="text" 
                     placeholder="Enter your command..." 

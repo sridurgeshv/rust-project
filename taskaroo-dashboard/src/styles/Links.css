@@ -78,6 +78,8 @@
 .add-form-submit-button {
   width: 25%;
   padding: 7px 2px;
+  font-size: 18px;
+  font-weight: bolder;
   background-color: white;
   color: black;
   border: 1px solid grey;
@@ -86,6 +88,16 @@
 }
 
 .add-form-submit-button:hover {
-  background-color: yellow;
+  background-color: black;
   color: white;
 }  
+
+.back-button {
+  background: none;
+  border: none;
+  font-size: 28px;
+  font-weight: bolder;
+  color: black;
+  cursor: pointer;
+  padding: 0;
+}

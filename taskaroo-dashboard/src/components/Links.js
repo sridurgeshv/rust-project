@@ -73,6 +73,7 @@ function Links() {
         </>
       ) : (
         <div className="add-link-form">
+          <button className="back-button" onClick={() => setShowAddForm(false)}>&#8592;</button>
           <h4 className="add-form-title">Creating a link</h4>
           <form onSubmit={handleAddLink}>
             <input
@@ -91,7 +92,6 @@ function Links() {
             />
             <button type="submit" className="add-form-submit-button">Add</button>
           </form>
-          <button className="back-button" onClick={() => setShowAddForm(false)}>Back</button>
         </div>
       )}
       {errorMessage && <div className="error-message">{errorMessage}</div>}
