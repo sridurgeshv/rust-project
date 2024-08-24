@@ -4,7 +4,7 @@ import Calendar from '../components/Calendar';
 import Pomodoro from '../components/Pomodoro'; 
 import TaskList from '../components/TaskList';
 import TrackingList from '../components/TrackingList';
-import Categories from '../components/Categories';
+import Links from '../components/Links';
 import Comments from '../components/Comments';
 import VoiceAssistantIcon from '../components/VoiceAssistantIcon';
 import BotPopup from '../components/BotPopup';
@@ -54,7 +54,7 @@ function Dashboard() {
             <div className="main-content">
                  <div className="left-column">
                     <Calendar />
-                    <Categories />
+                    <Links />
                 </div>
             <div className="middle-column">
                 <TaskList tasks={tasks} setTasks={setTasks} />

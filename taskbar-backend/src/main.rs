@@ -82,11 +82,19 @@ struct BotGoal {
     progress: u32,
 }
 
+#[derive(Serialize, Deserialize, Clone)]
+struct Link {
+    id: Option<u32>,
+    title: String,
+    url: String,
+}
+
 struct AppState {
     tasks: Mutex<Vec<Task>>,
     comments: Mutex<Vec<Comment>>,
     goals: Mutex<Vec<Goal>>, // Add this line
     tracked_tasks: Mutex<Vec<TrackedTask>>,  // State for tracked tasks
+    links: Mutex<Vec<Link>>,
 }
 
 pub struct BotAppState {
@@ -317,10 +325,26 @@ async fn delete_bot_task(task_id: web::Path<u32>, data: web::Data<BotAppState>) 
     }
 }
 
+#[get("/links")]
+async fn get_links(data: web::Data<AppState>) -> impl Responder {
+    let links = data.links.lock().unwrap();
+    HttpResponse::Ok().json(links.clone())
+}
+
+#[post("/links")]
+async fn add_link(link: web::Json<Link>, data: web::Data<AppState>) -> impl Responder {
+    let mut links = data.links.lock().unwrap();
+    let mut new_link = link.into_inner();
+    new_link.id = Some(links.len() as u32 + 1);
+    links.push(new_link.clone());
+    HttpResponse::Ok().json(new_link)
+}
+
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     let app_state = web::Data::new(AppState {
         tasks: Mutex::new(vec![]),
+        links: Mutex::new(vec![]),
         tracked_tasks: Mutex::new(vec![]), // Initialize tracked_tasks state
         comments: Mutex::new(vec![
             Comment {
@@ -350,10 +374,12 @@ async fn main() -> std::io::Result<()> {
             .app_data(app_state.clone())
             .app_data(bot_state.clone())
             .wrap(middleware::Logger::default())
-            .wrap(Cors::default()
-            .allow_any_origin()
-            .allow_any_method()
-            .allow_any_header()
+            .wrap(
+            Cors::default()
+                .allow_any_origin()
+                .allow_any_method()
+                .allow_any_header()
+                .supports_credentials()
             )
             .app_data(app_state.clone())
             .service(current_date)
@@ -375,6 +401,8 @@ async fn main() -> std::io::Result<()> {
             .service(delete_bot_task) // Added delete route
             .service(get_bot_goals)
             .service(add_bot_goal)
+            .service(get_links)
+            .service(add_link)
     })
     .bind("127.0.0.1:8080")?
     .run()
