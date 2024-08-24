@@ -1,4 +1,3 @@
-// Pomodoro.js
 import React, { useState } from 'react';
 import focusIcon from '../assets/focus.png'; 
 import FocusTimer from './FocusTimer';
@@ -15,13 +14,15 @@ const Pomodoro = ({ onClose, addTrackedTask }) => {
   };
 
   const startFocusing = () => {
-    setShowFocusTimer(true);
-    setIsOpen(false); // Close the pomodoro popup
+    if (pomodoroEnabled && soundscapesEnabled) {
+      setShowFocusTimer(true);
+      setIsOpen(false);
+    }
   };
 
   const handleCloseFocusTimer = () => {
     setShowFocusTimer(false);
-    onClose(); // Close the entire pomodoro component
+    onClose();
   };
 
   if (showFocusTimer) {
@@ -37,9 +38,9 @@ const Pomodoro = ({ onClose, addTrackedTask }) => {
       {isOpen && (
         <div className="pomodoro-popup">
           <div className="popup-header">
-          <span>
-            <span role="img" aria-label="Brain emoji">🧠</span> Focus Mode
-          </span>
+            <span>
+              <span role="img" aria-label="Brain emoji">🧠</span> Focus Mode
+            </span>
             <button className="close-button" onClick={() => setIsOpen(false)}>×</button>
           </div>
           <div className="popup-content">
@@ -71,7 +72,11 @@ const Pomodoro = ({ onClose, addTrackedTask }) => {
                 </label>
               </div>
             </div>
-            <button className="start-focus-button" onClick={startFocusing}>
+            <button 
+              className={`start-focus-button ${pomodoroEnabled && soundscapesEnabled ? 'active' : 'disabled'}`} 
+              onClick={startFocusing}
+              disabled={!(pomodoroEnabled && soundscapesEnabled)}
+            >
               Start focusing
             </button>
           </div>

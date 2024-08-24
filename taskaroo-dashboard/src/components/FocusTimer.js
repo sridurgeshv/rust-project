@@ -1,25 +1,32 @@
-// FocusTimer.js
 import React, { useState, useEffect } from 'react';
 import '../styles/FocusTimer.css';
 
-const FocusTimer = ({ initialMinutes = 25, onClose }) => {
+const FocusTimer = ({ initialMinutes = 25, onClose, addTrackedTask }) => {
   const [seconds, setSeconds] = useState(initialMinutes * 60);
   const [isRunning, setIsRunning] = useState(true);
   const [focusTask, setFocusTask] = useState('');
   const [totalFocusedTime, setTotalFocusedTime] = useState(0);
+  const [isBreak, setIsBreak] = useState(false);
 
   useEffect(() => {
     let interval = null;
     if (isRunning && seconds > 0) {
       interval = setInterval(() => {
         setSeconds(seconds => seconds - 1);
-        setTotalFocusedTime(time => time + 1);
+        if (!isBreak) {
+          setTotalFocusedTime(time => time + 1);
+        }
       }, 1000);
     } else if (seconds === 0) {
-      handleStop();
+      if (isBreak) {
+        handleStop();
+      } else {
+        setIsBreak(true);
+        setSeconds(5 * 60); // 5 minutes break
+      }
     }
     return () => clearInterval(interval);
-  }, [isRunning, seconds]);
+  }, [isRunning, seconds, isBreak]);
 
   const handlePauseResume = () => {
     setIsRunning(!isRunning);
@@ -38,6 +45,7 @@ const FocusTimer = ({ initialMinutes = 25, onClose }) => {
         .then(response => response.json())
         .then(data => {
           console.log('Task tracked successfully:', data);
+          addTrackedTask(data);
         })
         .catch(error => {
           console.error('Error posting tracked task:', error);
@@ -50,6 +58,12 @@ const FocusTimer = ({ initialMinutes = 25, onClose }) => {
     const minutes = Math.floor(timeInSeconds / 60);
     const remainingSeconds = timeInSeconds % 60;
     return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
+  };
+
+  const switchMode = () => {
+    setIsBreak(!isBreak);
+    setSeconds(isBreak ? initialMinutes * 60 : 5 * 60);
+    setIsRunning(true);
   };
 
   return (
@@ -67,17 +81,21 @@ const FocusTimer = ({ initialMinutes = 25, onClose }) => {
         </div>
         <div className="timer-container">
           <div className="timer-tabs">
-            <button className="tab active">FOCUS</button>
-            <button className="tab">BREAK</button>
+            <button className={`tab ${!isBreak ? 'active' : ''}`} onClick={() => !isBreak && switchMode()}>FOCUS</button>
+            <button className={`tab ${isBreak ? 'active' : ''}`} onClick={() => isBreak && switchMode()}>BREAK</button>
           </div>
           <div className="timer">{formatTime(seconds)}</div>
-          <input
-            type="text"
-            className="focus-input"
-            placeholder="I will focus on..."
-            value={focusTask}
-            onChange={(e) => setFocusTask(e.target.value)}
-          />
+          {!isBreak ? (
+            <input
+              type="text"
+              className="focus-input"
+              placeholder="I will focus on..."
+              value={focusTask}
+              onChange={(e) => setFocusTask(e.target.value)}
+            />
+          ) : (
+            <div className="break-message">Take a break</div>
+          )}
           <button className="pause-button" onClick={handlePauseResume}>
             {isRunning ? 'PAUSE' : 'RESUME'}
           </button>

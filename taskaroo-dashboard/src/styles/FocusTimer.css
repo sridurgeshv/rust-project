@@ -87,15 +87,30 @@ outline: none;
 .pause-button {
 background: none;
 border: 1px solid white;
+border-radius: 25px; 
 color: white;
 padding: 10px 30px;
-font-size: 18px;
+font-size: 24px;
+font-weight: bolder;
 cursor: pointer;
 }
+
+.pause-button:hover {
+  background-color: lightgray;
+} 
 
 .bottom-quote {
 text-align: center;
 padding: 20px;
 font-size: 28px;
 font-style: italic;
+}
+
+.break-message {
+  font-size: 3.2em;
+  font-weight: bolder;
+  text-align: center;
+  margin-top: 5px;
+  color: white;
+  margin-bottom: 15px;
 }
