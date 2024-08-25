@@ -6,8 +6,8 @@ function Sidebar() {
     return (
         <div className="sidebar">
             <div className="logo-section">
-                <div className="logo">TK</div>
-                <h1>Taskaroo</h1>
+                <div className="logo">PH</div>
+                <h1>Productivity Hub</h1>
             </div>
             <nav className="menu">
                 <NavLink to="/dashboard" className="menu-item" activeClassName="active">
@@ -28,7 +28,7 @@ function Sidebar() {
                     <span className="icon" role="img" aria-label="Settings">⚙️</span>
                     <span>Settings</span>
                 </NavLink>
-                <NavLink to="/logout" className="menu-item">
+                <NavLink to="/logout" className="menu-item" activeClassName="active">
                     <span className="icon" role="img" aria-label="Log Out">🚪</span>
                     <span>Log Out</span>
                 </NavLink>

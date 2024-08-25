@@ -1,10 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles/TaskPopup.css';
 
-function TaskPopup({ addTask, togglePopup }) {
+function TaskPopup({ addTask, togglePopup, task }) {
     const [taskTitle, setTaskTitle] = useState('');
     const [dueDate, setDueDate] = useState('Today');
     const [priority, setPriority] = useState('Medium');
+
+    useEffect(() => {
+        if (task) {
+            setTaskTitle(task.title);
+            setDueDate(task.date);
+            setPriority(task.priority);
+        }
+    }, [task]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -15,7 +23,7 @@ function TaskPopup({ addTask, togglePopup }) {
     return (
         <div className="popup-overlay">
             <div className="popup-box">
-                <h2>Add New Task</h2>
+                <h2>{task ? 'Edit Task' : 'Add New Task'}</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
                         <label htmlFor="task-title">Task Title</label>
@@ -53,7 +61,9 @@ function TaskPopup({ addTask, togglePopup }) {
                         </select>
                     </div>
                     <div className="form-actions">
-                        <button type="submit" className="submit-btn">Add Task</button>
+                        <button type="submit" className="submit-btn">
+                            {task ? 'Update Task' : 'Add Task'}
+                        </button>
                         <button type="button" className="cancel-btn" onClick={togglePopup}>Cancel</button>
                     </div>
                 </form>

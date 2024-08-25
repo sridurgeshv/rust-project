@@ -19,7 +19,7 @@
   padding: 20px;
   width: 100%; /* Ensure the bar spans the full width */
   position: absolute; /* Fix the top bar to the top of the page */
-  top: 25px;
+  top: 30px;
   left: 0;
   right: 0;
 }
@@ -34,6 +34,7 @@ justify-content: flex-start; /* Aligns icons to the left */
 .icon {
 font-size: 24px;
 cursor: pointer;
+color: black;
 }
 
 .focus-time {
@@ -113,4 +114,13 @@ font-style: italic;
   margin-top: 5px;
   color: white;
   margin-bottom: 15px;
+}
+
+.binaural-beats-container {
+  position: absolute;
+  top: 90px;
+  left: 65px;
+  width: 450px;
+  background: white;
+  border-radius: 10px;
 }

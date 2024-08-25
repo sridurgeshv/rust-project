@@ -89,6 +89,12 @@ struct Link {
     url: String,
 }
 
+// Music endpoint
+#[derive(Serialize)]
+struct MusicResponse {
+    url: String,
+}
+
 struct AppState {
     tasks: Mutex<Vec<Task>>,
     comments: Mutex<Vec<Comment>>,
@@ -145,6 +151,37 @@ async fn add_task(task: web::Json<Task>, data: web::Data<AppState>) -> impl Resp
 
     tasks.push(new_task.clone());
     HttpResponse::Ok().json(new_task)
+}
+
+#[put("/tasks/{id}")]
+async fn update_task(task_id: web::Path<u32>, task: web::Json<Task>, data: web::Data<AppState>) -> impl Responder {
+    let mut tasks = data.tasks.lock().unwrap();
+    let task_id = task_id.into_inner();
+    
+    if let Some(existing_task) = tasks.iter_mut().find(|t| t.id == Some(task_id)) {
+        existing_task.title = task.title.clone();
+        existing_task.date = task.date.clone();
+        existing_task.priority = task.priority.clone();
+        existing_task.completed = task.completed;
+        HttpResponse::Ok().json(existing_task.clone())
+    } else {
+        HttpResponse::NotFound().finish()
+    }
+}
+
+#[delete("/tasks/{id}")]
+async fn delete_task(task_id: web::Path<u32>, data: web::Data<AppState>) -> impl Responder {
+    let mut tasks = data.tasks.lock().unwrap();
+    let task_id = task_id.into_inner();
+    
+    let initial_len = tasks.len();
+    tasks.retain(|t| t.id != Some(task_id));
+    
+    if tasks.len() < initial_len {
+        HttpResponse::Ok().finish()
+    } else {
+        HttpResponse::NotFound().finish()
+    }
 }
 
 #[post("/tasks/complete/{id}")]
@@ -340,6 +377,21 @@ async fn add_link(link: web::Json<Link>, data: web::Data<AppState>) -> impl Resp
     HttpResponse::Ok().json(new_link)
 }
 
+#[get("/api/music/{category}")]
+async fn get_music(category: web::Path<String>) -> impl Responder {
+    // Map categories to music URLs
+    let url = match category.as_str() {
+        "Relax" => "https://ritika12df.github.io/ritikaaudio/relax.mp3",
+        "Focus" => "https://ritika12df.github.io/ritikaaudio/focus.mp3",
+        "Energize" => "https://ritika12df.github.io/ritikaaudio/energize.mp3",
+        "Sleep" => "https://ritika12df.github.io/ritikaaudio/sleep.mp3",
+        "Meditate" => "https://ritika12df.github.io/ritikaaudio/meditate.mp3",
+        _ => "https://ritika12df.github.io/ritikaaudio/default.mp3",
+    };
+
+    HttpResponse::Ok().json(MusicResponse { url: url.to_string() })
+}
+
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     let app_state = web::Data::new(AppState {
@@ -386,6 +438,8 @@ async fn main() -> std::io::Result<()> {
             .service(get_tasks)
             .service(add_task)
             .service(complete_task)
+            .service(update_task)
+            .service(delete_task)
             .service(get_tracked_tasks)  // Add the get_tracked_tasks route
             .service(add_tracked_task)  // Add the add_tracked_task route
             .service(get_comments)
@@ -398,11 +452,12 @@ async fn main() -> std::io::Result<()> {
             .service(add_bot_task)
             .service(update_bot_task)
             .service(complete_bot_task)
-            .service(delete_bot_task) // Added delete route
+            .service(delete_bot_task)
             .service(get_bot_goals)
             .service(add_bot_goal)
             .service(get_links)
             .service(add_link)
+            .service(get_music) // Add the music endpoint here
     })
     .bind("127.0.0.1:8080")?
     .run()

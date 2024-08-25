@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import BinauralBeats from './BinauralBeats';
 import '../styles/FocusTimer.css';
 
 const FocusTimer = ({ initialMinutes = 25, onClose, addTrackedTask }) => {
@@ -7,6 +8,8 @@ const FocusTimer = ({ initialMinutes = 25, onClose, addTrackedTask }) => {
   const [focusTask, setFocusTask] = useState('');
   const [totalFocusedTime, setTotalFocusedTime] = useState(0);
   const [isBreak, setIsBreak] = useState(false);
+  const [showBinauralBeats, setShowBinauralBeats] = useState(false);
+  const [currentAudio, setCurrentAudio] = useState(null);
 
   useEffect(() => {
     let interval = null;
@@ -34,6 +37,10 @@ const FocusTimer = ({ initialMinutes = 25, onClose, addTrackedTask }) => {
 
   const handleStop = () => {
     setIsRunning(false);
+    if (currentAudio) {
+      currentAudio.pause();
+      currentAudio.currentTime = 0;
+    }
     if (focusTask) {
       fetch('http://127.0.0.1:8080/tracked-tasks', {
         method: 'POST',
@@ -66,19 +73,32 @@ const FocusTimer = ({ initialMinutes = 25, onClose, addTrackedTask }) => {
     setIsRunning(true);
   };
 
+  const toggleBinauralBeats = () => {
+    setShowBinauralBeats(!showBinauralBeats);
+  };
+
+  const handleMusicStart = (audio) => {
+    setCurrentAudio(audio);
+  };
+
   return (
     <div className="focus-timer-overlay">
       <div className="focus-timer">
-        <button className="close-button" onClick={handleStop}>×</button>
+        <button className="close-button" onClick={handleStop}>&#10540;</button>
         <div className="top-bar">
           <div className="icons-left">
             <span className="icon">🔗</span>
-            <span className="icon">🔥</span>
+            <span className="icon" onClick={toggleBinauralBeats}>&#127911;</span>
           </div>
           <div className="focus-time">
             {Math.floor(totalFocusedTime / 60)}m Focused Today
           </div>
         </div>
+        {showBinauralBeats && (
+          <div className="binaural-beats-container">
+            <BinauralBeats onMusicStart={handleMusicStart} />
+          </div>
+        )}
         <div className="timer-container">
           <div className="timer-tabs">
             <button className={`tab ${!isBreak ? 'active' : ''}`} onClick={() => !isBreak && switchMode()}>FOCUS</button>
