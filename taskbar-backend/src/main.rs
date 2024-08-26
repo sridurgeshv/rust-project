@@ -5,6 +5,29 @@ use chrono::{Local, Datelike, NaiveDate};
 use std::sync::Mutex;
 use uuid::Uuid;
 
+#[derive(Serialize, Deserialize, Clone, Debug)]
+struct User {
+    username: String,
+    password: String, // In practice, use hashed passwords
+}
+
+#[derive(Serialize, Deserialize, Clone, Debug)]
+struct SignInResponse {
+    success: bool,
+    message: String,
+}
+
+#[derive(Deserialize)]
+struct UpdateUser {
+    username: String,
+    password: String, // This is the new password
+}
+
+#[derive(Default)]
+struct UserState {
+    users: Mutex<Vec<User>>,
+}
+
 #[derive(Serialize)]
 struct DateResponse {
     day: u32,
@@ -362,6 +385,55 @@ async fn delete_bot_task(task_id: web::Path<u32>, data: web::Data<BotAppState>) 
     }
 }
 
+#[post("/signup")]
+async fn signup(user: web::Json<User>, data: web::Data<UserState>) -> impl Responder {
+    let mut users = data.users.lock().unwrap();
+    if users.iter().any(|u| u.username == user.username) {
+        return HttpResponse::BadRequest().json(SignInResponse {
+            success: false,
+            message: "Username already exists".to_string(),
+        });
+    }
+    users.push(user.into_inner());
+    HttpResponse::Ok().json(SignInResponse {
+        success: true,
+        message: "User registered successfully".to_string(),
+    })
+}
+
+
+#[post("/signin")]
+async fn signin(user: web::Json<User>, data: web::Data<UserState>) -> impl Responder {
+    let users = data.users.lock().unwrap();
+    if users.iter().any(|u| u.username == user.username && u.password == user.password) {
+        HttpResponse::Ok().json(SignInResponse {
+            success: true,
+            message: "Signin successful".to_string(),
+        })
+    } else {
+        HttpResponse::Unauthorized().json(SignInResponse {
+            success: false,
+            message: "Invalid username or password".to_string(),
+        })
+    }
+}
+
+#[post("/update-user")]
+async fn update_user(user: web::Json<UpdateUser>, data: web::Data<UserState>) -> impl Responder {
+    let mut users = data.users.lock().unwrap();
+    if let Some(existing_user) = users.iter_mut().find(|u| u.username == user.username) {
+        existing_user.password = user.password.clone();
+        return HttpResponse::Ok().json(SignInResponse {
+            success: true,
+            message: "User details updated successfully".to_string(),
+        });
+    }
+    HttpResponse::BadRequest().json(SignInResponse {
+        success: false,
+        message: "User not found".to_string(),
+    })
+}
+
 #[get("/links")]
 async fn get_links(data: web::Data<AppState>) -> impl Responder {
     let links = data.links.lock().unwrap();
@@ -418,6 +490,7 @@ async fn main() -> std::io::Result<()> {
         goals: Mutex::new(vec![]),
     });
 
+    let user_state = web::Data::new(UserState::default());
     HttpServer::new(move || {
         App::new()
             .app_data(web::JsonConfig::default().error_handler(|err, _req| {
@@ -425,6 +498,7 @@ async fn main() -> std::io::Result<()> {
             }))
             .app_data(app_state.clone())
             .app_data(bot_state.clone())
+            .app_data(user_state.clone())
             .wrap(middleware::Logger::default())
             .wrap(
             Cors::default()
@@ -440,8 +514,8 @@ async fn main() -> std::io::Result<()> {
             .service(complete_task)
             .service(update_task)
             .service(delete_task)
-            .service(get_tracked_tasks)  // Add the get_tracked_tasks route
-            .service(add_tracked_task)  // Add the add_tracked_task route
+            .service(get_tracked_tasks) 
+            .service(add_tracked_task)  
             .service(get_comments)
             .service(add_comment)
             .service(update_comment)
@@ -457,7 +531,9 @@ async fn main() -> std::io::Result<()> {
             .service(add_bot_goal)
             .service(get_links)
             .service(add_link)
-            .service(get_music) // Add the music endpoint here
+            .service(get_music)
+            .service(signup) 
+            .service(signin) 
     })
     .bind("127.0.0.1:8080")?
     .run()

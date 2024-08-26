@@ -30,6 +30,12 @@ h1, h2, h3, h4, h5, h6 {
   flex-shrink: 0;
 }
 
+.full-content {
+  width: 100%;
+  height: 100vh;
+  background-size: cover;
+}
+
 .main-content {
   flex: 1;
   padding: 20px;

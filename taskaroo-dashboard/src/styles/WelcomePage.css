@@ -1,0 +1,104 @@
+.welcome-page {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(45deg, #2b1331, #3d1c4c, #1c1c3d);
+    min-height: 100vh;
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 50px;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.header-buttons {
+    display: flex;
+    gap: 15px;
+}
+
+.get-started-btn {
+    background: transparent;
+    border: 2px solid white;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.get-started-btn:hover {
+    color: white;
+    background-color: violet;
+}
+
+main {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 50px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.welcome-content {
+    max-width: 50%;
+    margin-top: 150px;
+}
+
+h1 {
+    font-size: 48px;
+    margin-bottom: 20px;
+}
+
+p {
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+.learn-more-btn {
+    background: #ff6b6b;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 25px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.learn-more-btn:hover {
+    background: #ff4757;
+}
+
+.image-container {
+    width: 45%;
+}
+
+.productivity-image {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin-top: 110px;
+    margin-left: 145px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.background-shape {
+    position: absolute;
+    bottom: -100px;
+    left: -100px;
+    width: 500px;
+    height: 500px;
+    background: rgba(255, 107, 107, 0.2);
+    border-radius: 50%;
+    z-index: -1;
+}

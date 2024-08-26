@@ -82,19 +82,29 @@ function MyTasks() {
     const formatDate = (dateString) => {
         const today = new Date();
         const taskDate = new Date(dateString);
-        
-        if (taskDate.toDateString() === today.toDateString()) {
+    
+        // Reset the time part for accurate comparison
+        today.setHours(0, 0, 0, 0);
+        taskDate.setHours(0, 0, 0, 0);
+    
+        const dayDifference = (taskDate - today) / (1000 * 60 * 60 * 24);
+    
+        if (dayDifference === 0) {
             return 'Today';
-        } else if (taskDate.toDateString() === new Date(today.setDate(today.getDate() + 1)).toDateString()) {
+        } else if (dayDifference === 1) {
             return 'Tomorrow';
-        } else if (taskDate <= new Date(today.setDate(today.getDate() + 6))) {
+        } else if (dayDifference >= 2 && dayDifference <= 6 && taskDate.getDay() !== 0) {
             return 'This Week';
-        } else if (taskDate.getMonth() === today.getMonth() && taskDate.getFullYear() === today.getFullYear()) {
+        } else if (
+            taskDate.getMonth() === today.getMonth() &&
+            taskDate.getFullYear() === today.getFullYear()
+        ) {
             return 'This Month';
         } else {
             return dateString; // fallback to the original date string
         }
     };
+    
 
     return (
         <div className="my-tasks-page">
