@@ -32,7 +32,7 @@ cd taskaroo-dashboard
 
 2. Install the required node modules:
 ```bash
-npm install
+npm install -g npm@latest
 ```
 
 3. Start the frontend application:
@@ -59,4 +59,4 @@ cargo run
 Once both the frontend and backend are running, you can view the Productivity Hub in your browser by navigating to http://localhost:3000.
 
 ### Video Demo
-To see Productivity Hub in action, check out our [video demonstration](). The video provides an overview of the app's features and shows how to navigate and use the tool effectively.
+To see Productivity Hub in action, check out our [video demonstration](https://www.youtube.com/watch?v=U2uQ5-py_RU&feature=youtu.be). The video provides an overview of the app's features and shows how to navigate and use the tool effectively.
