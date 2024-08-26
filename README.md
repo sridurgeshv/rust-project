@@ -32,7 +32,7 @@ cd taskaroo-dashboard
 
 2. Install the required node modules:
 ```bash
-npm install
+npm install -g npm@latest
 ```
 
 3. Start the frontend application:
