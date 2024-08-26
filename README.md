@@ -59,4 +59,4 @@ cargo run
 Once both the frontend and backend are running, you can view the Productivity Hub in your browser by navigating to http://localhost:3000.
 
 ### Video Demo
-To see Productivity Hub in action, check out our [video demonstration](). The video provides an overview of the app's features and shows how to navigate and use the tool effectively.
+To see Productivity Hub in action, check out our [video demonstration](https://raw.githubusercontent.com/darylfernandes2108/August-Hackathon/blob/main/Video_Demo.mp4). The video provides an overview of the app's features and shows how to navigate and use the tool effectively.
