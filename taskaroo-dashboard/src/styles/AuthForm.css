@@ -169,6 +169,7 @@
     height: 40px;
     border-radius: 5px;
     border: 2px solid var(--main-color);
+    color: black;
     background-color: var(--bg-color);
     box-shadow: 4px 4px var(--main-color);
     font-size: 15px;
