@@ -41,7 +41,7 @@ npm start
 ```
 
 ## Backend Setup
-1. Ensure you have [Cargo]() installed on your local machine.
+1. Install the rust and cargo from [Here](https://doc.rust-lang.org/cargo/getting-started/installation.html) on your local machine.
 2. Navigate to the backend directory in another terminal.
 ```bash
 cd taskbar-backend
