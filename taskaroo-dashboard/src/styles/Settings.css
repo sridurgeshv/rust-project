@@ -138,3 +138,9 @@ input:checked + .slider:before {
         flex-direction: column;
     }
 }
+
+.error-message {
+    color: red;
+    font-size: 0.8em;
+    margin-top: 5px;
+}

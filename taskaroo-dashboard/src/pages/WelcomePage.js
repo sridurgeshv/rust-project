@@ -18,7 +18,7 @@ const WelcomePage = () => {
                 <div className="welcome-content">
                     <h1>Welcome to ProductivityHub</h1>
                     <p>Welcome to ProductivityHub! Boost your productivity and streamline your workflow with our intuitive tools. We empower you to tackle challenges and stay organized, providing customizable solutions that help you focus on achieving your goals efficiently.</p>
-                    <button className="learn-more-btn" onClick={() => navigate('/about')}>Learn More</button>
+                    <button className="learn-more-btn" onClick={() => navigate('/auth')}>Learn More</button>
                 </div>
                 <div className="image-container">
                     <img src={productivityImage} alt="Productivity" className="productivity-image" />
