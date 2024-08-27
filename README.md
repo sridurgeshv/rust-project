@@ -21,7 +21,7 @@ To use Productivity Hub locally, follow these steps:
 ### Clone the Repository
 First, clone the repository from GitHub:
 ```bash
-git clone <repository_link>
+git clone https://github.com/sridurgeshv/rust-project.git
 ```
 
 ## Frontend Setup
