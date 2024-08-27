@@ -32,7 +32,8 @@ cd taskaroo-dashboard
 
 2. Install the required node modules:
 ```bash
-npm install -g npm@latest
+npm install
+export NODE_OPTIONS=--openssl-legacy-provider
 ```
 
 3. Start the frontend application:
