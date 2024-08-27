@@ -42,8 +42,6 @@ function App() {
     const handleLogout = () => {
         setIsAuthenticated(false);
         localStorage.removeItem('token');
-        // Redirect to welcome page
-        window.location.href = '/';
     };
 
     return (
@@ -70,7 +68,6 @@ function App() {
                         <Route path="/settings" element={
                             isAuthenticated ? <Settings /> : <Navigate to="/auth" />
                         } />
-                        <Route path="/logout" element={<Navigate to="/" />} />
                     </Routes>
                 </div>
                 {showPomodoro && (

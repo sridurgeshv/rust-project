@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import '../styles/Sidebar.css';
 
-function Sidebar({ onLogout }) {
+function Sidebar() {
     return (
         <div className="sidebar">
             <div className="logo-section">
@@ -28,10 +28,10 @@ function Sidebar({ onLogout }) {
                     <span className="icon" role="img" aria-label="Settings">⚙️</span>
                     <span>Settings</span>
                 </NavLink>
-                <button onClick={onLogout} className="menu-item logout-button">
+                <NavLink to="/logout" className="menu-item" activeClassName="active">
                     <span className="icon" role="img" aria-label="Log Out">🚪</span>
                     <span>Log Out</span>
-                </button>
+                </NavLink>
             </nav>
         </div>
     );

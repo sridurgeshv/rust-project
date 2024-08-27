@@ -8,19 +8,7 @@ use uuid::Uuid;
 #[derive(Serialize, Deserialize, Clone, Debug)]
 struct User {
     username: String,
-    password: String,
-    phone: Option<String>,
-    focus_area: Option<String>,
-    availability_status: Option<String>,
-    notifications: Notifications,
-}
-
-#[derive(Serialize, Deserialize, Clone, Debug)]
-struct Notifications {
-    task_reminders: bool,
-    deadline_alerts: bool,
-    team_updates: bool,
-    email_notifications: bool,
+    password: String, // In practice, use hashed passwords
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug)]
@@ -32,11 +20,7 @@ struct SignInResponse {
 #[derive(Deserialize)]
 struct UpdateUser {
     username: String,
-    password: String,
-    phone: Option<String>,
-    focus_area: Option<String>,
-    availability_status: Option<String>,
-    notifications: Notifications,
+    password: String, // This is the new password
 }
 
 #[derive(Default)]
@@ -439,10 +423,6 @@ async fn update_user(user: web::Json<UpdateUser>, data: web::Data<UserState>) ->
     let mut users = data.users.lock().unwrap();
     if let Some(existing_user) = users.iter_mut().find(|u| u.username == user.username) {
         existing_user.password = user.password.clone();
-        existing_user.phone = user.phone.clone();
-        existing_user.focus_area = user.focus_area.clone();
-        existing_user.availability_status = user.availability_status.clone();
-        existing_user.notifications = user.notifications.clone();
         return HttpResponse::Ok().json(SignInResponse {
             success: true,
             message: "User details updated successfully".to_string(),
