@@ -2,11 +2,11 @@
 Welcome to Productivity Hub, a comprehensive web application designed to help users break down large tasks into manageable chunks, focusing on smaller tasks to achieve bigger goals efficiently. This tool is perfect for anyone looking to optimize their productivity by staying organized and concentrated on what matters most.
 
 ## Key Features
-- **Dashboard Overview**: Once authenticated, users are redirected to the dashboard, which serves as the control center. Here, users can access various components such as the Calendar, Tasks, Comments, Links Section, Tracking List, and more.
-- **Task Management**: The dedicated Tasks page allows users to enter tasks, set deadlines, and prioritize them (Low, Medium, High). The dashboard automatically updates with this information, ensuring users stay on top of their to-do list.
-- **Calendar**: Displays the current date and integrates with the Tasks feature, providing a visual overview of upcoming deadlines.
-- **Comments Section**: A space for jotting down non-work-related thoughts or distractions. This helps users clear their minds and maintain focus on their tasks.
-- **My Inventory**: A personalized links storage section where users can save and organize URLs without cluttering their browser bookmarks.
+- **Dashboard Overview**: After authentication, users are directed to the dashboard, the central hub for accessing components like Calendar, Tasks, Comments, Links, and Tracking List.
+- **Task Management**: The Tasks page enables users to input tasks, set deadlines, and prioritize them (Low, Medium, High), automatically updating the dashboard to keep users organized.
+- **Calendar**: Shows the current date and integrates with Tasks for a visual overview of upcoming deadlines.
+- **Comments Section**: A space for non-work-related thoughts or distractions, helping users maintain focus.
+- **My Inventory**: A personalized section for saving and organizing URLs, reducing browser bookmark clutter.
 - **Tracking List & Pomodoro Integration**: The app includes a Pomodoro timer (25 minutes of work followed by a 5-minute break) to enhance concentration and productivity. Users can track their progress in the Tracking List, which syncs with the Pomodoro cycles.
 - **Music for Focus**: Users can choose from various music categories—Relax, Focus, Energize, Sleep, and Meditate—to complement their work sessions.
 - **Goals Page**: A dedicated section for listing and prioritizing goals. Users can classify their goals as Low, Medium, or High priority.
