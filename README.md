@@ -7,10 +7,10 @@ Welcome to Productivity Hub, a comprehensive web application designed to help us
 - **Calendar**: Shows the current date and integrates with Tasks for a visual overview of upcoming deadlines.
 - **Comments Section**: A space for non-work-related thoughts or distractions, helping users maintain focus.
 - **My Inventory**: A personalized section for saving and organizing URLs, reducing browser bookmark clutter.
-- **Tracking List & Pomodoro Integration**: The app includes a Pomodoro timer (25 minutes of work followed by a 5-minute break) to enhance concentration and productivity. Users can track their progress in the Tracking List, which syncs with the Pomodoro cycles.
-- **Music for Focus**: Users can choose from various music categories—Relax, Focus, Energize, Sleep, and Meditate—to complement their work sessions.
-- **Goals Page**: A dedicated section for listing and prioritizing goals. Users can classify their goals as Low, Medium, or High priority.
-- **Bot Assistance**: A basic bot is available on the dashboard to assist with simple tasks and enhance user experience.
+- **Tracking List & Pomodoro Integration**: Features a Pomodoro timer (25 minutes work, 5-minute break) to boost productivity, with progress tracked in the Tracking List.
+- **Music for Focus**: Offers various music categories—Relax, Focus, Energize, Sleep, and Meditate—to enhance work sessions.
+- **Goals Page**: A section for listing and prioritizing goals, classified as Low, Medium, or High priority.
+- **Bot Assistance**: A basic bot on the dashboard assists with simple tasks to improve user experience.
 
 ## Why Choose Productivity Hub?
 Productivity Hub is more than just a task manager—it's a comprehensive productivity tool that helps users streamline their workflows, stay focused, and achieve their goals. Whether you need to manage tasks, store important links, track your work with Pomodoro, or simply jot down distracting thoughts, Productivity Hub has you covered.
